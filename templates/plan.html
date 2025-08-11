@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>献立プラン</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center">📅 1週間の献立プラン</h1>
+
+    {% for day, meals in plan.items() %}
+    <div class="card mb-3 shadow-sm">
+        <div class="card-header bg-primary text-white">
+            {{ day }}
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for meal_name, recipe, size in meals %}
+                <li class="list-group-item">
+                    <strong>{{ meal_name }}:</strong> {{ recipe.name }}  
+                    <small class="text-muted">({{ ", ".join(recipe.required_ingredients) }})</small>
+                    <br>
+                    <span class="badge bg-info">{{ recipe.calories }} kcal</span>
+                    <span class="badge bg-success">P: {{ recipe.protein }}g</span>
+                    <span class="badge bg-warning">C: {{ recipe.carbs }}g</span>
+                    <span class="badge bg-danger">F: {{ recipe.fat }}g</span>
+                    <span class="badge bg-secondary">人数: {{ size }}</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    {% endfor %}
+
+
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">戻る</a>
+</div>
+
+</body>
+</html>

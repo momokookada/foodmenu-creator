@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>献立生成アプリ（プレビュー）</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+    <h1 class="mb-4 text-center">🍽 家族の1週間献立生成</h1>
+
+    <!-- 冷蔵庫の食材更新 -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">冷蔵庫の食材更新</div>
+        <div class="card-body">
+            <textarea class="form-control mb-2" rows="3">玉ねぎ, ご飯, ルー, トマト, レタス</textarea>
+            <button class="btn btn-primary">更新</button>
+        </div>
+    </div>
+
+    <!-- レシピ追加 -->
+    <div class="card mb-4">
+        <div class="card-header bg-success text-white">➕ レシピを追加</div>
+        <div class="card-body">
+            <input type="text" class="form-control mb-2" placeholder="レシピ名">
+            <input type="text" class="form-control mb-2" placeholder="材料（カンマ区切り）">
+            <div class="row g-2 mb-2">
+                <div class="col"><input type="number" step="0.1" placeholder="kcal" class="form-control"></div>
+                <div class="col"><input type="number" step="0.1" placeholder="タンパク質" class="form-control"></div>
+                <div class="col"><input type="number" step="0.1" placeholder="炭水化物" class="form-control"></div>
+                <div class="col"><input type="number" step="0.1" placeholder="脂質" class="form-control"></div>
+            </div>
+            <button class="btn btn-success">追加</button>
+        </div>
+    </div>
+
+    <!-- レシピ一覧 -->
+    <div class="card mb-4">
+        <div class="card-header bg-info text-white">📋 現在のレシピ</div>
+        <div class="card-body">
+            <div class="mb-2 p-2 border rounded bg-white d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>カレーライス</strong>（ご飯, ルー, 玉ねぎ）
+                    <small class="text-muted">500kcal / P:15g / C:80g / F:20g</small>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-warning" onclick="fillEditForm(1)" data-bs-toggle="modal" data-bs-target="#editModal">✏</button>
+                    <button class="btn btn-sm btn-danger">🗑</button>
+                </div>
+            </div>
+            <div class="mb-2 p-2 border rounded bg-white d-flex justify-content-between align-items-center">
+                <div>
+                    <strong>サラダ</strong>（レタス, トマト, きゅうり）
+                    <small class="text-muted">120kcal / P:3g / C:10g / F:8g</small>
+                </div>
+                <div>
+                    <button class="btn btn-sm btn-warning" onclick="fillEditForm(2)" data-bs-toggle="modal" data-bs-target="#editModal">✏</button>
+                    <button class="btn btn-sm btn-danger">🗑</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 献立生成 -->
+    <div class="card mb-4">
+        <div class="card-header bg-secondary text-white">献立生成</div>
+        <div class="card-body">
+            <input type="number" value="2" class="form-control mb-2">
+            <button class="btn btn-secondary">生成</button>
+        </div>
+    </div>
+
+    <!-- 週間献立 -->
+    <div class="card">
+        <div class="card-header bg-dark text-white">📅 週間献立（例）</div>
+        <div class="card-body table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>日付</th>
+                        <th>朝食</th>
+                        <th>昼食</th>
+                        <th>夕食</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>月</td>
+                        <td>サラダ</td>
+                        <td>カレーライス</td>
+                        <td>焼き魚定食</td>
+                    </tr>
+                    <tr>
+                        <td>火</td>
+                        <td>トースト＆卵</td>
+                        <td>冷やし中華</td>
+                        <td>ハンバーグ</td>
+                    </tr>
+                    <tr>
+                        <td>水</td>
+                        <td>おにぎり</td>
+                        <td>サンドイッチ</td>
+                        <td>カレーライス</td>
+                    </tr>
+                    <tr>
+                        <td>木</td>
+                        <td>ヨーグルト＆フルーツ</td>
+                        <td>パスタ</td>
+                        <td>おでん</td>
+                    </tr>
+                    <tr>
+                        <td>金</td>
+                        <td>納豆ご飯</td>
+                        <td>ラーメン</td>
+                        <td>サラダチキン</td>
+                    </tr>
+                    <tr>
+                        <td>土</td>
+                        <td>フレンチトースト</td>
+                        <td>カレーライス</td>
+                        <td>寿司</td>
+                    </tr>
+                    <tr>
+                        <td>日</td>
+                        <td>パンケーキ</td>
+                        <td>サラダ</td>
+                        <td>ステーキ</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- 編集モーダル -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-warning">
+        <h5 class="modal-title">✏ レシピ編集</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+          <input type="text" id="edit_name" class="form-control mb-2">
+          <input type="text" id="edit_ingredients" class="form-control mb-2">
+          <div class="row g-2 mb-2">
+              <div class="col"><input type="number" step="0.1" id="edit_calories" class="form-control"></div>
+              <div class="col"><input type="number" step="0.1" id="edit_protein" class="form-control"></div>
+              <div class="col"><input type="number" step="0.1" id="edit_carbs" class="form-control"></div>
+              <div class="col"><input type="number" step="0.1" id="edit_fat" class="form-control"></div>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button class="btn btn-warning">保存</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">キャンセル</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+const recipeData = {
+    1: {name: "カレーライス", ingredients: ["ご飯", "ルー", "玉ねぎ"], calories: 500, protein: 15, carbs: 80, fat: 20},
+    2: {name: "サラダ", ingredients: ["レタス", "トマト", "きゅうり"], calories: 120, protein: 3, carbs: 10, fat: 8}
+};
+function fillEditForm(id) {
+    const r = recipeData[id];
+    document.getElementById('edit_name').value = r.name;
+    document.getElementById('edit_ingredients').value = r.ingredients.join(", ");
+    document.getElementById('edit_calories').value = r.calories;
+    document.getElementById('edit_protein').value = r.protein;
+    document.getElementById('edit_carbs').value = r.carbs;
+    document.getElementById('edit_fat').value = r.fat;
+}
+</script>
+
+</body>
+</html>
