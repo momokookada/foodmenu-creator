@@ -36,7 +36,7 @@ FlaskとSQLiteを使用しており、インターネット接続なしでPC上�
 1. **リポジトリをクローン**
 
 ```bash
-git clone https://github.com/momokookada/foodmenu-creator.git
+git clone https://github.com/yourname/foodmenu-creator.git
 cd foodmenu-creator
 ```
 
